@@ -8,6 +8,8 @@ class ClientSessionRaw(ClientSession):
     def __init__(self, *args, **kwargs) -> None:
         if not kwargs.get("request_class"):
             kwargs["request_class"] = ClientRequestRaw
+
         if not kwargs.get("response_class"):
             kwargs["response_class"] = ClientResponseRaw
+
         super().__init__(*args, **kwargs)

@@ -1,15 +1,15 @@
-import aiohttp_raw
 import asyncio
+import aiohttp_raw
 
 
 async def main():
-    req = b"GET /get HTTP/1.1\r\nHost: httpbin.org\r\n\r\n"
-    proxy = "http://192.168.1.214:8080"
-    connector = aiohttp_raw.TCPConnector(ssl=False)
+    # req = b"GET /get HTTP/1.1\r\nHost: httpbin.org\r\n\r\n"
+    # proxy = "http://192.168.1.214:8080"
+    # connector = aiohttp_raw.TCPConnector(ssl=False)
 
-    # req = b"GET /get\r\n\r\n"
-    # proxy = None
-    # connector = aiohttp.TCPConnector(ssl=False)
+    req = b"GET /get\r\n\r\n"
+    proxy = None
+    connector = aiohttp_raw.TCPConnector(ssl=False)
 
     # from aiohttp_socks import ProxyConnector
     # proxy = None
