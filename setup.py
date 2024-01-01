@@ -9,11 +9,26 @@ with open(path.join(__folder__, 'README.md')) as readme_file:
     long_description = readme_file.read()
 
 about = {}
-with open(path.join(__folder__, 'requests_raw', '__version__.py')) as about_file:
+with open(path.join(__folder__, 'aiohttp_raw', '__version__.py')) as about_file:
     exec(about_file.read(), about)
 
 with open(path.join(__folder__, 'requirements.txt')) as req_file:
     install_requires = req_file.readlines()
+
+extras_require = {
+    'speedups': [
+        "aiodns>=1.1; sys_platform=='linux' or sys_platform=='darwin'",
+        "Brotli>=1.1.0; platform_python_implementation == 'CPython'",
+        "brotlicffi>=1.1.0.0; platform_python_implementation != 'CPython'",
+    ],
+    'socks': [
+        "aiohttp-socks>=0.8.4"
+    ],
+}
+extras_require['speedups-socks'] = [
+    *extras_require["speedups"],
+    *extras_require["socks"],
+]
 
 setup(
     name=about['__title__'],
@@ -24,7 +39,7 @@ setup(
     author=about['__author__'],
     author_email=about['__author_email__'],
     packages=find_packages(exclude=['examples', 'tests']),
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=install_requires,
     license=about['__license__'],
     platforms='any',
@@ -52,11 +67,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries',
     ],
-    extras_require={
-        "security": [],
-        'socks': ['PySocks>=1.5.6, !=1.5.7'],
-        "use_chardet_on_py3": ["chardet>=3.0.2,<6"],
-    },
+    extras_require=extras_require,
     project_urls={
         'Source': about["__url__"],
     },

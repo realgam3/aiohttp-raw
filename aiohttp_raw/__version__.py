@@ -1,0 +1,8 @@
+__title__ = 'aiohttp-raw'
+__description__ = 'HTTP communication through raw sockets using aiohttp for RFC compliance testing'
+__url__ = 'https://github.com/realgam3/aiohttp-raw'
+__version__ = '0.1.0'
+__author__ = 'Tomer Zait (realgam3)'
+__author_email__ = 'realgam3@gmail.com'
+__license__ = 'Apache 2.0'
+__copyright__ = 'Copyright 2023 Tomer Zait'
