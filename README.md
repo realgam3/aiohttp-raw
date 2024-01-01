@@ -29,13 +29,19 @@ loop.run_until_complete(main())
 
 ```shell
 pip3 install aiohttp-raw
+```
 
+```shell
 # speedups
 pip install aiohttp[speedups]
+````
 
+```shell
 # socks
 pip install aiohttp[socks]
+```
 
+```shell
 # speedups-socks
 pip install aiohttp[speedups-socks]
 ```
