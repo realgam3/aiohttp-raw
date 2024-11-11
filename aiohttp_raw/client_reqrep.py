@@ -77,11 +77,21 @@ class StreamReaderRaw(EmptyStreamReader):
 
 class ClientResponseRaw(ClientResponse):
     async def start(self, connection: "Connection") -> "ClientResponse":
+        # Monkey patching to get the raw data
+
+        self._data = b""
+        _data_received = connection.protocol.data_received
+        def data_received(data: bytes):
+            self._data += data
+            return _data_received(data)
+        connection.protocol.data_received = data_received
+
         try:
             return await super().start(connection)
         except ClientResponseError as exc:
             error = exc
-            if error.status != 400:
+            message = error.message
+            if not (error.status == 400 and isinstance(message, str) and message.startswith("Expected HTTP/")):
                 raise error
 
         self.version = HttpVersion(0, 0)
@@ -89,8 +99,6 @@ class ClientResponseRaw(ClientResponse):
         self.reason = "Non Standard"
         self._headers = CIMultiDictProxy(CIMultiDict())
         self._raw_headers = tuple()
-
-        res_re = re.search("Expected HTTP/:.*?(?P<res_raw>b'.*')", error.message, flags=re.DOTALL)
-        self.content = StreamReaderRaw(literal_eval(res_re.group("res_raw")))
+        self.content = StreamReaderRaw(self._data)
 
         return self
