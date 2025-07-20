@@ -1,8 +1,6 @@
 import functools
 
-import re
 from io import BytesIO
-from ast import literal_eval
 from urllib.parse import urlparse
 from aiohttp.http import HttpVersion
 from aiohttp.connector import Connection
@@ -45,7 +43,7 @@ class ClientRequestRaw(ClientRequest):
             _body = self.body._value.split(b"/", 1)
             self.body._value = b"".join([_body[0], f"{_path.scheme}://{_path.netloc}/".encode(), _body[1]])
 
-        self._writer = self.loop.create_task(self.write_bytes(writer, conn))
+        self._writer = self.loop.create_task(self.write_bytes(writer, conn, content_length=None))
 
         response_class = self.response_class
         assert response_class is not None
